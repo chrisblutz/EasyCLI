@@ -15,6 +15,10 @@ module RubyCLI
     Registry.register_command(command)
   end
 
+  def self.register_option(option)
+    Registry.register_option(option)
+  end
+
   def self.process
     Engine.start
   end
