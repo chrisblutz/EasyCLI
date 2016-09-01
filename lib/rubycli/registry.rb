@@ -11,6 +11,8 @@ module RubyCLI
     @options = []
     @a_options = []
     class << self
+      attr_reader :commands
+
       def register_command(command)
         @commands << command
         @command_names << command.name

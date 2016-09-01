@@ -9,9 +9,11 @@ module RubyCLI
   # environment in question
   class Setup
     attr_accessor :args
+    attr_reader :command
 
-    def initialize(args = [])
+    def initialize(command, args = [])
       @args = args
+      @command = command
       @params = {}
     end
 

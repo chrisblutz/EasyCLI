@@ -1,48 +1,78 @@
 require 'rubycli/registry'
 require 'rubycli/setup'
+require 'rubycli/commands/defaults'
 
 module RubyCLI
   # Provides the internal
   # workings for the RubyCLI
   # library
   class Engine
+    @option_names = []
+    @option_aliases = []
+    @args = []
+    @continue = true
     class << self
       def start
+        Defaults.register_defaults
+
         command = ARGV.shift
-        if !command.nil? && Registry.command?(command)
+        return false if command.nil?
+        parse_args
+        parse_line(command)
+      end
 
-          option_names = []
-          option_aliases = []
-          args = []
-
-          arg = ARGV.shift
-          until arg.nil?
-            if arg.start_with?('--')
-              option_names << arg[2..-1]
-            elsif arg.start_with?('-')
-              option_aliases << arg[1..-1]
-            else
-              args << arg
-            end
-            arg = ARGV.shift
-          end
-
-          setup = Setup.new(args)
-
-          setup = run_options(option_names, option_aliases, setup)
-
-          Registry.retrieve_command(command).execute(setup)
-        end
+      def stop
+        @continue = false
       end
 
       private
 
-      def run_options(names, aliases, setup)
-        names.each do |n|
+      def parse_line(command)
+        if Registry.command?(command)
+          run_command(command)
+        elsif command.start_with?('--') && Registry.option?(command[2..-1])
+          @option_names << command[2..-1]
+          run_options(Setup.new(nil, @args))
+        elsif command.start_with?('-') && Registry.option_alias?(command[1..-1])
+          @option_aliases << command[1..-1]
+          run_options(Setup.new(nil, @args))
+        end
+      end
+
+      def run_command(command)
+        c = Registry.retrieve_command(command)
+
+        setup = run_options(Setup.new(c, @args))
+
+        return false if @continue == false
+
+        c.execute(setup)
+      end
+
+      def parse_args
+        arg = ARGV.shift
+        until arg.nil?
+          if arg.start_with?('--')
+            @option_names << arg[2..-1]
+          elsif arg.start_with?('-')
+            @option_aliases << arg[1..-1]
+          else
+            @args << arg
+          end
+          arg = ARGV.shift
+        end
+      end
+
+      def run_options(setup)
+        @option_names.each do |n|
+          return false if @continue == false
           Registry.retrieve_option(n).execute(setup) if Registry.option?(n)
         end
 
-        aliases.each do |a|
+        return false if @continue == false
+
+        @option_aliases.each do |a|
+          return false if @continue == false
           if Registry.option_alias?(a)
             Registry.retrieve_option_alias(a).execute(setup)
           end
