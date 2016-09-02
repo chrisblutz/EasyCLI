@@ -3,9 +3,15 @@ require 'rubycli/engine'
 require 'rubycli/help_formatter'
 
 module RubyCLI
+  # Contains the default
+  # help command and --help
+  # option.  This command/option
+  # retrieves the information
+  # from the respective command's
+  # help method.
   module Defaults
     def self.register_defaults
-      help = RubyCLI::Command.new('help') do |_setup|
+      help = RubyCLI::Command.new('help') do
         puts HelpFormatter.format_all
         Engine.stop
       end

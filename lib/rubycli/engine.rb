@@ -44,7 +44,7 @@ module RubyCLI
 
         setup = run_options(Setup.new(c, @args))
 
-        return false if @continue == false
+        return if @continue == false || c.valid?(setup)
 
         c.execute(setup)
       end
@@ -65,14 +65,14 @@ module RubyCLI
 
       def run_options(setup)
         @option_names.each do |n|
-          return false if @continue == false
+          break if @continue == false
           Registry.retrieve_option(n).execute(setup) if Registry.option?(n)
         end
 
-        return false if @continue == false
+        return setup if @continue == false
 
         @option_aliases.each do |a|
-          return false if @continue == false
+          break if @continue == false
           if Registry.option_alias?(a)
             Registry.retrieve_option_alias(a).execute(setup)
           end

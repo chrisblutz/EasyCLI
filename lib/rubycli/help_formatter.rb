@@ -1,6 +1,11 @@
 require 'rubycli/registry'
 
 module RubyCLI
+  # This class helps
+  # to format help messages
+  # used by the default
+  # help command and --help
+  # option
   class HelpFormatter
     class << self
       def format_all

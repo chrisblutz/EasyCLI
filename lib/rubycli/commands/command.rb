@@ -35,6 +35,7 @@ module RubyCLI
     end
 
     def valid?(setup)
+      setup.args == @required_args
     end
 
     def execute(setup)
@@ -42,8 +43,7 @@ module RubyCLI
     end
 
     def help
-      str = "====[ #{@name} ]====\n"
-      str += "Usage: #{@name} "
+      str = "====[ #{@name} ]====\nUsage: #{@name} "
       @doc_args.each do |key, _value|
         str += "[#{key.upcase}] "
       end
