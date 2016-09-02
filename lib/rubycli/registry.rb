@@ -6,6 +6,7 @@ module RubyCLI
   class Registry
     @command_names = []
     @commands = []
+    @command_aliases = {}
     @option_names = []
     @option_aliases = []
     @options = []
@@ -19,12 +20,20 @@ module RubyCLI
       end
 
       def command?(name)
-        @command_names.include?(name)
+        @command_names.include?(name) || @command_aliases.key?(name)
       end
 
       def retrieve_command(name)
-        index = @command_names.index(name)
-        @commands[index]
+        if @command_names.include?(name)
+          index = @command_names.index(name)
+          @commands[index]
+        elsif @command_aliases.key?(name)
+          @command_aliases[name]
+        end
+      end
+
+      def alias_command(command, a)
+        @command_aliases[a] = command
       end
 
       def register_option(option)

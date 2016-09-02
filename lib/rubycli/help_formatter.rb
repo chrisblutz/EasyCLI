@@ -10,7 +10,8 @@ module RubyCLI
     class << self
       def format_all
         str = ''
-        Registry.commands.each do |command|
+        com_arr = Registry.commands.sort { |a, b| a.name <=> b.name }
+        com_arr.each do |command|
           str += "#{format(command)}\n"
         end
         str

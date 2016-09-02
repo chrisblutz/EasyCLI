@@ -44,7 +44,7 @@ module RubyCLI
 
         setup = run_options(Setup.new(c, @args))
 
-        return if @continue == false || c.valid?(setup)
+        return if @continue == false || !c.valid?(setup)
 
         c.execute(setup)
       end

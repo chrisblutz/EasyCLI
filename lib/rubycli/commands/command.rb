@@ -10,12 +10,17 @@ module RubyCLI
     attr_accessor :action
     attr_writer :description
     attr_writer :required_args
+    attr_writer :max_args
 
     def initialize(name, &action)
       @name = name
       @action = action
       @doc_args = {}
       @doc_options = {}
+    end
+
+    def alias(a)
+      Registry.alias_command(self, a)
     end
 
     def add_option_doc(option, description)
@@ -34,8 +39,12 @@ module RubyCLI
       @required_args || 0
     end
 
+    def max_args
+      @max_args || -1
+    end
+
     def valid?(setup)
-      setup.args == @required_args
+      setup.args.length >= required_args && (max_args == -1 || setup.args.length <= max_args)
     end
 
     def execute(setup)
@@ -50,8 +59,14 @@ module RubyCLI
       @doc_options.each do |key, _value|
         str += "(--#{key.name}) "
       end
+      str = "#{str.rstrip}\nDescription: #{description}\n#{help_options_args}"
+      str.rstrip
+    end
+
+    def help_options_args
+      str = ''
       unless @doc_args.empty?
-        str = "#{str.rstrip}\nArguments:\n"
+        str += "Arguments:\n"
         @doc_args.each do |key, value|
           str += "- #{key.upcase}: #{value}\n"
         end
@@ -62,7 +77,7 @@ module RubyCLI
           str += "- #{key.name}: #{value}\n"
         end
       end
-      str.rstrip
+      str
     end
   end
 end
