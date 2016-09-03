@@ -1,8 +1,8 @@
-require 'rubycli/registry'
-require 'rubycli/setup'
-require 'rubycli/commands/defaults'
+require 'easy_cli/registry'
+require 'easy_cli/setup'
+require 'easy_cli/commands/defaults'
 
-module RubyCLI
+module EasyCLI
   # Provides the internal
   # workings for the RubyCLI
   # library
@@ -12,15 +12,19 @@ module RubyCLI
     @args = []
     @continue = true
     class << self
+      # Begins the parsing process
       def start
         Defaults.register_defaults
 
         command = ARGV.shift
-        return false if command.nil?
+        return if command.nil?
         parse_args
         parse_line(command)
       end
 
+      # Tells the engine to stop
+      # parsing after completing
+      # the current task
       def stop
         @continue = false
       end
