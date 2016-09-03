@@ -3,8 +3,10 @@ rvm:
   - 2.0.0
   - 2.1
   - 2.2
-  - 2.3
-  - jruby-head
+  - 2.3.0
+  - ruby-head
+  - jruby-9.0.1.0
+  - rbx-3
 env:
   - JRUBY_OPTS="--debug"
 before_install: gem update --remote bundler
