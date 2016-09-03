@@ -56,7 +56,7 @@ module EasyCLI
           if arg.start_with?('--')
             @option_names << arg[2..-1]
           elsif arg.start_with?('-')
-            @option_aliases << arg[1..-1]
+            @switches << arg[1..-1]
           else
             @args << arg
           end
@@ -68,13 +68,6 @@ module EasyCLI
         @option_names.each do |n|
           break if @continue == false
           Registry.option(n).execute(setup) if Registry.option?(n)
-        end
-
-        return setup if @continue == false
-
-        @option_aliases.each do |a|
-          break if @continue == false
-          Registry.option_alias(a).execute(setup) if Registry.option_alias?(a)
         end
 
         setup
