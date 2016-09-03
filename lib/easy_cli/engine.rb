@@ -44,7 +44,7 @@ module EasyCLI
       end
 
       def run_command(command)
-        c = Registry.retrieve_command(command)
+        c = Registry.command(command)
 
         setup = run_options(Setup.new(c, @args))
 
@@ -70,16 +70,14 @@ module EasyCLI
       def run_options(setup)
         @option_names.each do |n|
           break if @continue == false
-          Registry.retrieve_option(n).execute(setup) if Registry.option?(n)
+          Registry.option(n).execute(setup) if Registry.option?(n)
         end
 
         return setup if @continue == false
 
         @option_aliases.each do |a|
           break if @continue == false
-          if Registry.option_alias?(a)
-            Registry.retrieve_option_alias(a).execute(setup)
-          end
+          Registry.option_alias(a).execute(setup) if Registry.option_alias?(a)
         end
 
         setup
