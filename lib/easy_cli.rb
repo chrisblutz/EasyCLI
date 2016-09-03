@@ -9,6 +9,8 @@ require_relative 'easy_cli/registry'
 module EasyCLI
   autoload :Command, 'easy_cli/commands/command'
   autoload :Option, 'easy_cli/commands/option'
+  autoload :Defaults, 'easy_cli/commands/defaults'
+  autoload :Engine, 'easy_cli/engine'
 
   # Registers a command to be recognized
   # by the parser

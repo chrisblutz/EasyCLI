@@ -1,4 +1,5 @@
 require 'easy_cli/registry'
+require 'easy_cli/commands/defaults'
 
 module EasyCLI
   # Represents a command that
@@ -28,6 +29,9 @@ module EasyCLI
       @action = action
       @doc_args = {}
       @doc_options = {}
+      @description = Defaults::DEFAULT_DESCRIPTION
+      @required_args = 0
+      @max_args = -1
     end
 
     # Registers an alias for this command
@@ -63,7 +67,7 @@ module EasyCLI
     # *Returns:*
     # The description of this command, or a default message if the description is nil
     def description
-      @description || 'No description provided!'
+      @description || Defaults::DEFAULT_DESCRIPTION
     end
 
     # Retrieves the minimum number of arguments required for this command
