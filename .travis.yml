@@ -1,0 +1,15 @@
+language: ruby
+rvm:
+  - 2.0.0
+  - 2.1
+  - 2.2
+  - 2.3
+  - jruby-head
+env:
+  - JRUBY_OPTS="--debug"
+before_install: gem update --remote bundler
+install:
+  - bundle install --retry=3
+script:
+  - bundle exec rubocop
+  - rake test
