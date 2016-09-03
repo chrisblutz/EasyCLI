@@ -11,35 +11,35 @@ class EasyCLITest < Minitest::Test
   end
 
   def test_commands
-    c = EasyCLI::Command.new('test') do |_setup|
+    c = EasyCLI::Command.new('test_command') do |_setup|
       assert(true)
     end
     ARGV.clear
-    ARGV << 'test'
+    ARGV << 'test_command'
     EasyCLI.register_command(c)
     EasyCLI.process
   end
 
   def test_options
-    o = EasyCLI::Option.new('test') do |_setup|
+    o = EasyCLI::Option.new('test_options') do |_setup|
       assert(true)
     end
     ARGV.clear
-    ARGV << '--test'
+    ARGV << '--test_options'
     EasyCLI.register_option(o)
     EasyCLI.process
   end
 
   def test_command_with_options
-    o = EasyCLI::Option.new('test') do |setup|
+    o = EasyCLI::Option.new('test_cwo') do |setup|
       setup.add_param('option', true)
     end
-    c = EasyCLI::Command.new('test') do |setup|
+    c = EasyCLI::Command.new('test_cwo') do |setup|
       assert(setup.param?('option') && setup.param('option') == true)
     end
     ARGV.clear
-    ARGV << 'test'
-    ARGV << '--test'
+    ARGV << 'test_cwo'
+    ARGV << '--test_cwo'
     EasyCLI.register_option(o)
     EasyCLI.register_command(c)
     EasyCLI.process
