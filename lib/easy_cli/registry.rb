@@ -7,9 +7,8 @@ module EasyCLI
     @commands = []
     @command_aliases = {}
     @option_names = []
-    @option_aliases = []
     @options = []
-    @a_options = []
+    @option_aliases = {}
     class << self
       # An array containing all registered commands
       attr_reader :commands
@@ -86,20 +85,7 @@ module EasyCLI
       # Whether or not an option
       # with the specified name is registered
       def option?(name)
-        @option_names.include?(name)
-      end
-
-      # Checks if an option with
-      # the specified alias is registered
-      #
-      # *Params:*
-      # +alias_name+:: The alias of the option
-      #
-      # *Returns:*
-      # Whether or not an option
-      # with the specified alias is registered
-      def option_alias?(alias_name)
-        @option_aliases.include?(alias_name)
+        @option_names.include?(name) || @option_aliases.key?(name)
       end
 
       # Retrieves the option
@@ -111,21 +97,22 @@ module EasyCLI
       # *Returns:*
       # The option specified by the name
       def option(name)
-        index = @option_names.index(name)
-        @options[index]
+        if @option_names.include?(name)
+          index = @option_names.index(name)
+          @options[index]
+        elsif @option_aliases.key?(name)
+          @option_aliases[name]
+        end
       end
 
-      # Retrieves the option
-      # with the specified alias
+      # Adds an alias to the specified
+      # option
       #
       # *Params:*
-      # +alias_name+:: The alias of the option
-      #
-      # *Returns:*
-      # The option specified by the alias
-      def option_alias(alias_name)
-        index = @option_aliases.index(alias_name)
-        @a_options[index]
+      # +option+:: The option to register an alias for
+      # +a+:: The alias to register
+      def alias_option(option, a)
+        @option_aliases[a] = option
       end
     end
   end

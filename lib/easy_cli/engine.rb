@@ -8,7 +8,7 @@ module EasyCLI
   # library
   class Engine
     @option_names = []
-    @option_aliases = []
+    @switches = []
     @args = []
     @continue = true
     class << self
@@ -36,9 +36,6 @@ module EasyCLI
           run_command(command)
         elsif command.start_with?('--') && Registry.option?(command[2..-1])
           @option_names << command[2..-1]
-          run_options(Setup.new(nil, @args))
-        elsif command.start_with?('-') && Registry.option_alias?(command[1..-1])
-          @option_aliases << command[1..-1]
           run_options(Setup.new(nil, @args))
         end
       end

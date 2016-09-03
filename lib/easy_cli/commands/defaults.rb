@@ -22,7 +22,7 @@ module EasyCLI
         help.description = 'Shows help for commands.  A specific command can be specified by' \
                            ' entering the name as an argument.'
         help_option = create_help_option
-        help_option.aliases << '?'
+        help_option.alias('?')
 
         Registry.register_command(help)
         Registry.register_option(help_option)

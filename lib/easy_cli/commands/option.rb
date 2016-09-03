@@ -23,16 +23,12 @@ module EasyCLI
       @aliases = []
     end
 
-    # Checks if the specified alias is a valid
-    # alias for this option
+    # Registers an alias for this option
     #
     # *Params:*
-    # +name+:: The alias to check
-    #
-    # *Returns:*
-    # Whether or not the specified alias is a valid alias for this option
-    def alias?(name)
-      @aliases.include?(name)
+    # +a+:: The alias to register
+    def alias(a)
+      Registry.alias_option(self, a)
     end
 
     # Executes the action associated with this option
