@@ -7,7 +7,7 @@ rvm:
   - ruby-head
   - jruby
 env:
-  - JRUBY_OPTS="--debug"
+  - JRUBY_OPTS="--debug --2.0"
 before_install: gem update --remote bundler
 install:
   - bundle install --retry=3
