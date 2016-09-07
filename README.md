@@ -5,21 +5,6 @@
 
 A basic command-line parser for Ruby.
 
-## Installation ##
-
-**EasyCLI** can be installed using the standard RubyGems install command:
-```
-$ gem install easy_cli
-```
-You can also install it using `bundler`, by requiring it your `Gemfile`:
-```ruby
-gem 'easy_cli'
-```
-Because **EasyCLI** has not yet reached version 1.0, there may be updates that make the library incompatible with past versions.  To solve, this, you may want to use the conservative version locking feature of your `Gemfile`:
-```ruby
-gem 'easy_cli', '~> 0.1.0'
-```
-
 ## Usage ##
 
 ### Creating Commands ###
